@@ -1,0 +1,27 @@
+# `fly launch --no-deploy` app nomini o'zi yozadi; xohlasangiz o'zgartiring
+app = "my-kino-bot"
+primary_region = "fra"
+
+[build]
+
+[env]
+  PORT = "8080"
+  FACTORY_DATA_DIR = "/data"
+  # deploydan keyin o'zingizning manzilingizni yozing:
+  # PUBLIC_SITE_URL = "https://my-kino-bot.fly.dev"
+
+# Bola-botlar fayllari va PM2 holati qayta ishga tushganda yo'qolmasligi uchun
+[mounts]
+  source = "bot_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "off"   # polling bot — hech qachon o'chmasin
+  auto_start_machines = false
+  min_machines_running = 1
+
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "2gb"                 # bola-botlar ko'p bo'lsa oshiring
